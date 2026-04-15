@@ -117,3 +117,86 @@ button.secondary{
     align-items:end;
   }
 }
+  min-height:44px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  padding:10px 12px;
+  font-size:16px;
+}
+button{
+  background:var(--primary);
+  color:#fff;
+  border:none;
+  font-weight:700;
+  cursor:pointer;
+  margin-top:10px;
+}
+button.secondary{
+  background:#e5e7eb;
+  color:#111827;
+}
+.topbar, .tabs{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.tabs{
+  overflow:auto;
+}
+.tabs .tab{
+  width:auto;
+  margin:0;
+  flex:1;
+}
+.tabs .tab.active{
+  background:#111827;
+  color:#fff;
+}
+.muted{color:var(--muted)}
+.msg{margin-top:10px; font-size:14px}
+.people-list,.task-list,#todayRegistrations{
+  display:grid;
+  gap:10px;
+  margin-top:12px;
+}
+.person-card,.task-card,.reg-card,.stat-card{
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px;
+  background:#fff;
+}
+.person-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.person-row input[type=checkbox]{
+  width:20px;
+  min-height:20px;
+}
+.filters, .task-create{
+  display:grid;
+  gap:10px;
+  margin:12px 0;
+}
+.stats-grid{
+  display:grid;
+  gap:10px;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  margin-bottom:12px;
+}
+.small{
+  font-size:12px;
+  color:var(--muted);
+}
+@media (min-width: 768px){
+  .filters{
+    grid-template-columns:2fr 1fr 1fr auto;
+    align-items:end;
+  }
+  .task-create{
+    grid-template-columns:1fr 1fr 2fr 2fr 1fr auto;
+    align-items:end;
+  }
+}
