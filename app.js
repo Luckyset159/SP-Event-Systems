@@ -172,10 +172,13 @@ async function refreshTasks() {
       <div>${escapeHtml(t.description || '')}</div>
       <div class="small">${escapeHtml(t.lastUpdate || '')}</div>
       <select onchange="changeTaskStatus('${escapeJs(t.taskId)}', this.value)">
+      <select onchange="changeTaskStatus('${escapeJs(t.taskId)}', this.value)">
         <option ${t.status === 'Open' ? 'selected' : ''}>Open</option>
         <option ${t.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
+        <option ${t.status === 'Waiting' ? 'selected' : ''}>Waiting</option>
         <option ${t.status === 'Blocked' ? 'selected' : ''}>Blocked</option>
         <option ${t.status === 'Done' ? 'selected' : ''}>Done</option>
+        <option ${t.status === 'Closed' ? 'selected' : ''}>Closed</option>
       </select>
     </div>
   `).join('') || '<div class="small">No tasks found.</div>';
