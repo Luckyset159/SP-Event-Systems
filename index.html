@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Event Registration System</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <section id="loginView" class="card">
+      <h1>Event Registration System</h1>
+      <p class="muted">Clean fresh build</p>
+      <label>Username</label>
+      <input id="username" type="text" placeholder="Username" />
+      <label>Password</label>
+      <input id="password" type="password" placeholder="Password" />
+      <button id="loginBtn">Login</button>
+      <p id="loginMsg" class="msg"></p>
+    </section>
+
+    <section id="appView" class="hidden">
+      <header class="topbar card">
+        <div>
+          <h2 id="welcomeText">Welcome</h2>
+          <p id="userMeta" class="muted"></p>
+        </div>
+        <button id="logoutBtn" class="secondary">Logout</button>
+      </header>
+
+      <nav class="tabs card">
+        <button class="tab active" data-tab="registrationTab">Registration</button>
+        <button class="tab" data-tab="tasksTab">Tasks</button>
+        <button class="tab" data-tab="adminTab">Admin</button>
+      </nav>
+
+      <section id="registrationTab" class="tabpane card">
+        <h3>Registration</h3>
+        <label>Department</label>
+        <select id="departmentSelect"></select>
+        <button id="loadPeopleBtn" class="secondary">Load names</button>
+
+        <div id="peopleList" class="people-list"></div>
+
+        <label>Note</label>
+        <input id="regNote" type="text" placeholder="Optional note" />
+
+        <button id="registerBtn">Register selected</button>
+        <p id="regMsg" class="msg"></p>
+
+        <h4>Today’s registrations</h4>
+        <div id="todayRegistrations"></div>
+      </section>
+
+      <section id="tasksTab" class="tabpane card hidden">
+        <h3>Task Dashboard</h3>
+        <div id="statsGrid" class="stats-grid"></div>
+
+        <div class="filters">
+          <input id="taskSearch" type="text" placeholder="Search tasks" />
+          <select id="taskStatusFilter">
+            <option value="">All status</option>
+            <option>Open</option>
+            <option>In Progress</option>
+            <option>Blocked</option>
+            <option>Done</option>
+          </select>
+          <select id="taskPriorityFilter">
+            <option value="">All priority</option>
+            <option>Urgent</option>
+            <option>Important</option>
+            <option>Standard</option>
+          </select>
+          <button id="refreshTasksBtn" class="secondary">Refresh</button>
+        </div>
+
+        <div class="task-create">
+          <h4>Create task</h4>
+          <input id="taskDate" type="date" />
+          <input id="taskDepartment" type="text" placeholder="Department (SuperAdmin only)" />
+          <input id="taskTitle" type="text" placeholder="Task title" />
+          <input id="taskDescription" type="text" placeholder="Description" />
+          <select id="taskPriority">
+            <option>Urgent</option>
+            <option>Important</option>
+            <option selected>Standard</option>
+          </select>
+          <button id="createTaskBtn">Create task</button>
+          <p id="taskMsg" class="msg"></p>
+        </div>
+
+        <div id="taskList" class="task-list"></div>
+      </section>
+
+      <section id="adminTab" class="tabpane card hidden">
+        <h3>Admin Tools</h3>
+        <button id="genTokensBtn">Generate all person tokens</button>
+        <button id="genBadgesBtn" class="secondary">Create final production badges</button>
+        <p id="adminMsg" class="msg"></p>
+      </section>
+    </section>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
