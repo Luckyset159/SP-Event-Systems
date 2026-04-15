@@ -1,38 +1,74 @@
-const state = {
-  token: localStorage.getItem('event_token') || '',
-  user: JSON.parse(localStorage.getItem('event_user') || 'null'),
-  departments: [],
-  people: []
-};
+function doGet(e) {
+  try {
+    const action = (e && e.parameter && e.parameter.action) ? e.parameter.action : 'ping';
 
-const el = (id) => document.getElementById(id);
+    if (action === 'ping') {
+      return response_(true, { app: 'event-system', status: 'ok' }, 'API running');
+    }
 
-async function apiPost(action, payload = {}) {
-  const res = await fetch(window.APP_CONFIG.API_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ action, token: state.token, ...payload })
-  });
-  return res.json();
+    if (action === 'departments') {
+      return response_(true, listDepartments_(), 'OK');
+    }
+
+    if (action === 'people') {
+      return response_(true, listPeopleByDepartment_(e.parameter), 'OK');
+    }
+
+    return response_(false, null, 'Unknown GET action');
+  } catch (err) {
+    return response_(false, null, err.message || String(err));
+  }
 }
 
-async function apiGet(params = {}) {
-  const url = new URL(window.APP_CONFIG.API_URL);
-  Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
-  const res = await fetch(url.toString());
-  return res.json();
-}
+function doPost(e) {
+  try {
+    const body = parseBody_(e);
+    const action = body.action;
+    let data = null;
 
-function showLogin() {
-  el('loginView').classList.remove('hidden');
-  el('appView').classList.add('hidden');
-}
+    if (action === 'login') {
+      data = login_(body);
+      return response_(true, data, 'Logged in');
+    }
 
-function showApp() {
-  el('loginView').classList.add('hidden');
-  el('appView').classList.remove('hidden');
-  el('welcomeText').textContent = `Welcome, ${state.user?.displayName || state.user?.username || ''}`;
-  el('userMeta').textContent = `${state.user?.role || ''} • ${state.user?.department || ''}`;
+    const session = requireAuth_(body.token);
+
+    switch (action) {
+      case 'todayRegistrations':
+        data = getTodayRegistrations_(body, session);
+        break;
+      case 'registerPeople':
+        data = registerPeople_(body, session);
+        break;
+      case 'listTasks':
+        data = listTasks_(body, session);
+        break;
+      case 'createTask':
+        data = createTask_(body, session);
+        break;
+      case 'updateTaskStatus':
+        data = updateTaskStatus_(body, session);
+        break;
+      case 'dashboardStats':
+        data = getDashboardStats_(body, session);
+        break;
+      case 'generatePersonTokens':
+        data = generateAllPersonTokens();
+        break;
+      case 'createBadges':
+        data = createFinalProductionBadges();
+        break;
+      case 'createBadgesCompact':
+        data = createCompactProductionBadges();
+        break;
+      default:
+        throw new Error('Unknown POST action');
+    }
+
+    return response_(true, data, 'OK');
+  } catch (err) {
+    return response_(false, null, err.message || String(err));
+  }
 }
 
 function bindTabs() {
